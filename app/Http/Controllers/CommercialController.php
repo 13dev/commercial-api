@@ -5,12 +5,24 @@ namespace App\Http\Controllers;
 use App\Commercial;
 use App\Http\Requests\CommercialRequest;
 use App\Models\User;
+use App\Repositories\CommercialRepository;
 use App\Transformers\CommercialTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CommercialController extends Controller
 {
+
+
+    /**
+     * @var CommercialRepository
+     */
+    private CommercialRepository $commercialRepository;
+
+    public function __construct(CommercialRepository $commercialRepository)
+    {
+        $this->commercialRepository = $commercialRepository;
+    }
 
     /**
      * Get all the users.
@@ -20,9 +32,9 @@ class CommercialController extends Controller
      */
     public function index(CommercialRequest $request): JsonResponse
     {
-        $this->setParseIncludes(['photos']);
+        //$this->setParseIncludes(['photos']);
 
-        return $this->jsonResponse(Commercial::all(), new CommercialTransformer);
+        return $this->jsonResponse($this->commercialRepository->getCommercial(1), new CommercialTransformer);
     }
 
 }
