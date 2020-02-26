@@ -23,6 +23,7 @@ class ErrorTransformer extends TransformerAbstract
         $error = [
             'message' => (string) $this->getMessage($exception),
             'status' => (string) $this->getStatusCode($exception),
+            'data' => array(),
         ];
 
         if (count($details = $this->getDetails($exception))) {
@@ -30,12 +31,10 @@ class ErrorTransformer extends TransformerAbstract
         }
 
         if (config('app.debug')) {
-            if (config('app.debug')) {
-                $error['debug'] = [
-                    'exception' => class_basename($exception),
-                    'trace' => $this->getTrace($exception),
-                ];
-            }
+            $error['debug'] = [
+                'exception' => class_basename($exception),
+                'trace' => $this->getTrace($exception),
+            ];
         }
 
         return $error;
