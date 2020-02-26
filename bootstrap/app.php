@@ -90,6 +90,8 @@ $app->register(\App\Providers\EventServiceProvider::class);
 $app->register(\Spatie\Fractal\FractalServiceProvider::class);
 $app->register(\Spatie\QueryBuilder\QueryBuilderServiceProvider::class);
 
+$app->register(Prettus\Repository\Providers\LumenRepositoryServiceProvider::class);
+
 if ($app->environment() === 'local') {
     $app->register(\Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 }
