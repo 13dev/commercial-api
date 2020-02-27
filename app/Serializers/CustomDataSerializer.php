@@ -5,40 +5,55 @@ namespace App\Serializers;
 
 use League\Fractal\Pagination\CursorInterface;
 use League\Fractal\Pagination\PaginatorInterface;
+use League\Fractal\Resource\ResourceInterface;
 use League\Fractal\Serializer\SerializerAbstract;
 
 class CustomDataSerializer extends SerializerAbstract
 {
     /**
-     * Serialize the top level data.
-     *
-     * @param array $data
-     * @return array
+     * @inheritDoc
      */
-    public function serializeData($resourceKey, array $data)
+    public function collection($resourceKey, array $data)
     {
-        return ['data' => $data];
+        if ($resourceKey) {
+            return [$resourceKey => $data];
+        }
+
+        return $data;
     }
 
     /**
-     * Serialize the included data
-     *
-     * @param string $resourceKey
-     * @param array $data
-     * @return array
-     **/
-    public function serializeIncludedData($resourceKey, array $data)
+     * @inheritDoc
+     */
+    public function item($resourceKey, array $data)
+    {
+        if ($resourceKey) {
+            return [$resourceKey => $data];
+        }
+
+        return $data;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function null()
+    {
+        return $this->null();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function includedData(ResourceInterface $resource, array $data)
     {
         return $data;
     }
 
     /**
-     * Serialize the meta
-     *
-     * @param array $meta
-     * @return array
+     * @inheritDoc
      */
-    public function serializeMeta(array $meta)
+    public function meta(array $meta)
     {
         if (empty($meta)) {
             return [];
@@ -48,12 +63,9 @@ class CustomDataSerializer extends SerializerAbstract
     }
 
     /**
-     * Serialize the paginator
-     *
-     * @param \League\Fractal\Pagination\PaginatorInterface $paginator
-     * @return array
-     **/
-    public function serializePaginator(PaginatorInterface $paginator)
+     * @inheritDoc
+     */
+    public function paginator(PaginatorInterface $paginator)
     {
         $currentPage = (int) $paginator->getCurrentPage();
         $lastPage = (int) $paginator->getLastPage();
@@ -80,11 +92,9 @@ class CustomDataSerializer extends SerializerAbstract
     }
 
     /**
-     * Serialize the cursor
-     * @param CursorInterface $cursor
-     * @return array
+     * @inheritDoc
      */
-    public function serializeCursor(CursorInterface $cursor): array
+    public function cursor(CursorInterface $cursor)
     {
         return [
             'cursor' => [

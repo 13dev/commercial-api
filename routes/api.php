@@ -30,8 +30,6 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'commercials'], function ($router) {
     $router->get('/', 'CommercialController@index');
-    $router->post('/', 'CommercialController@store');
     $router->get('/{id:[0-9]+}', 'CommercialController@show');
-    $router->put('/{id:[0-9]+}', 'CommercialController@update');
-    $router->delete('/{id:[0-9]+}', 'CommercialController@destroy');
+    $router->post('/', 'CommercialController@create');
 });

@@ -15,12 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Set custom serializer to fractal.
-        $this->app->bind(Manager::class, function ($app) {
-            $manager = new Manager;
 
-            // Use the custom serializer
-            return $manager->setSerializer(new CustomDataSerializer);
-        });
+
     }
 }

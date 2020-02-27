@@ -23,7 +23,6 @@ class ErrorTransformer extends TransformerAbstract
         $error = [
             'message' => (string) $this->getMessage($exception),
             'status' => (string) $this->getStatusCode($exception),
-            'data' => array(),
         ];
 
         if (count($details = $this->getDetails($exception))) {

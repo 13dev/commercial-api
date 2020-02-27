@@ -23,6 +23,7 @@ class CommercialTransformer extends TransformerAbstract
      */
     protected $availableIncludes = [
         'photos',
+        'main_photo',
     ];
 
     /**
@@ -30,10 +31,40 @@ class CommercialTransformer extends TransformerAbstract
      *
      * @return array
      */
-    public function transform(Commercial $user)
+    public function transform(Commercial $commercial)
     {
         return [
-            'id' => $user->id,
+            'ads_id' => $commercial->getKey(),
+            'title' => $commercial->getAttribute(Commercial::TITLE),
         ];
     }
+
+    /**
+     * Relationship with photos.
+     * @param Commercial $commercial
+     * @return \League\Fractal\Resource\Collection
+     */
+    public function includePhotos(Commercial $commercial)
+    {
+        return $this->collection($commercial->photos() ?: [], new PhotoTransformer);
+    }
+
+    /**
+     * Description is optional
+     * @param Commercial $commercial
+     * @return \League\Fractal\Resource\Item
+     */
+    public function includeDescription(Commercial $commercial)
+    {
+        return $this->item($commercial, [
+            'description' => $commercial->getAttribute(Commercial::DESCRIPTION) ?? ''
+        ]);
+    }
+
+
+    public function includeMainPhoto(Commercial $commercial)
+    {
+        return $this->item($commercial->mainPhoto(), new PhotoTransformer);
+    }
+
 }

@@ -12,16 +12,18 @@ use Illuminate\Http\Request;
 
 class CommercialController extends Controller
 {
-
-
     /**
      * @var CommercialRepository
      */
-    private CommercialRepository $commercialRepository;
+    private CommercialRepository $repository;
 
+    /**
+     * CommercialController constructor.
+     * @param CommercialRepository $commercialRepository
+     */
     public function __construct(CommercialRepository $commercialRepository)
     {
-        $this->commercialRepository = $commercialRepository;
+        $this->repository = $commercialRepository;
     }
 
     /**
@@ -32,9 +34,12 @@ class CommercialController extends Controller
      */
     public function index(CommercialRequest $request): JsonResponse
     {
-        //$this->setParseIncludes(['photos']);
+        $resources = $this->repository->getCommercial(4);
 
-        return $this->jsonResponse($this->commercialRepository->getCommercial(1), new CommercialTransformer);
+        //include photos on response.
+        $this->setParseIncludes(['photos', 'main_photo']);
+
+        return $this->jsonResponse($resources, new CommercialTransformer);
     }
 
 }
