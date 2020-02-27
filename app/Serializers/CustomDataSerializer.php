@@ -39,7 +39,7 @@ class CustomDataSerializer extends SerializerAbstract
      */
     public function null()
     {
-        return $this->null();
+        return null;
     }
 
     /**

@@ -14,4 +14,5 @@ final class Constants
     const NO_RESULTS_MESSAGE = 'api.no_results_for';
     const RESOURCE_NOT_FOUND_MESSAGE = 'api.resource_not_found';
 
+
 }

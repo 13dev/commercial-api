@@ -5,6 +5,7 @@ namespace App\Transformers;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use League\Fractal\TransformerAbstract;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -25,7 +26,7 @@ class ErrorTransformer extends TransformerAbstract
             'status' => (string) $this->getStatusCode($exception),
         ];
 
-        if (count($details = $this->getDetails($exception))) {
+        if (!empty($details = $this->getDetails($exception))) {
             $error['details'] = $details;
         }
 
@@ -94,16 +95,16 @@ class ErrorTransformer extends TransformerAbstract
      *
      * @param  \Exception  $exception
      *
-     * @return array
+     * @return array|string
      */
-    protected function getDetails(Exception $exception): array
+    protected function getDetails(Exception $exception)
     {
         if (method_exists($exception, 'getDetails')) {
             return $exception->getDetails();
         }
 
         if (method_exists($exception, 'errors')) {
-            return $exception->errors();
+            return Arr::first(Arr::flatten($exception->errors()));
         }
 
         return [];

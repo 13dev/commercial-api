@@ -10,6 +10,8 @@ use App\Exceptions\ResourceNotFoundException;
 use App\Helpers\Constants;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Str;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -20,13 +22,18 @@ class CommercialRepository extends BaseRepository implements RepositoryInterface
         return Commercial::class;
     }
 
+
     /**
+     * @param null $sortBy
+     * @param string $order
+     * @param int $limit
      * @return mixed
-     * @throws EmptyResultsException
      */
-    public function getCommercials()
+    public function getCommercials($sortBy = 'created_at', $order = 'asc', int $limit = 10)
     {
-       $collection = $this->all();
+        $collection = $this
+            ->scopeQuery(fn($q) => $q->orderBy($sortBy, $order))
+            ->paginate($limit);
 
        if($collection->isEmpty()) {
            throw new EmptyResultsException(Constants::RESOURCE_ADS);

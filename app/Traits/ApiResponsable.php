@@ -5,6 +5,8 @@ namespace App\Traits;
 
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Serializer\SerializerAbstract;
 use League\Fractal\TransformerAbstract;
 
@@ -24,6 +26,19 @@ trait ApiResponsable
     {
         $data = fractal($data, $transformer)
             ->parseIncludes($this->parseIncludes)
+            ->paginateWith(new IlluminatePaginatorAdapter($data))
+            ->toArray();
+
+        return new JsonResponse($data, $status, $headers, $options);
+    }
+
+    protected function jsonResponsePaginate(LengthAwarePaginator $lengthAwarePaginator, TransformerAbstract $transformer, $status = 200, array $headers = [], $options = 0): JsonResponse
+    {
+        $dataCollection = $lengthAwarePaginator->getCollection();
+
+        $data = fractal($dataCollection, $transformer)
+            ->parseIncludes($this->parseIncludes)
+            ->paginateWith(new IlluminatePaginatorAdapter($lengthAwarePaginator))
             ->toArray();
 
         return new JsonResponse($data, $status, $headers, $options);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "908327aaa4b9aed23e20797a73f44771",
+    "content-hash": "84c44ab5fb76fa20768effe2b7dc2009",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -2057,6 +2057,53 @@
                 "serialize"
             ],
             "time": "2019-11-29T22:36:02+00:00"
+        },
+        {
+            "name": "pearl/lumen-request-validate",
+            "version": "1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pearlkrishn/lumen-request-validate.git",
+                "reference": "8e73f5a3c65de4d3061b8f6812044d95216f4a65"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pearlkrishn/lumen-request-validate/zipball/8e73f5a3c65de4d3061b8f6812044d95216f4a65",
+                "reference": "8e73f5a3c65de4d3061b8f6812044d95216f4a65",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.7.* || 5.8.* || 6.*",
+                "laravel/lumen-framework": "5.7.* || 5.8.* || 6.*",
+                "php": ">=7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pearl\\RequestValidate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "pearlkrishn",
+                    "email": "pearlkrishn@gmail.com"
+                }
+            ],
+            "description": "Lumen doesn't have form request validator seperatly. This package helps developers to segregate the validation layer from the controller to a separate dedicated class",
+            "keywords": [
+                "form-request",
+                "form-request-validation",
+                "form-validation",
+                "lumen",
+                "lumen-package",
+                "lumen-request-validate",
+                "validation"
+            ],
+            "time": "2019-12-11T14:54:28+00:00"
         },
         {
             "name": "phpoption/phpoption",

@@ -34,12 +34,16 @@ class CommercialController extends Controller
      */
     public function index(CommercialRequest $request): JsonResponse
     {
-        $resources = $this->repository->getCommercial(4);
+        $resources = $this->repository->getCommercials(
+            $request->get('sortBy', 'created_at'),
+            $request->get('order', 'asc'),
+            $request->get('limit', 10)
+        );
 
-        //include photos on response.
-        $this->setParseIncludes(['photos', 'main_photo']);
+        //includes on response.
+        $this->setParseIncludes(['main_photo', 'photos']);
 
-        return $this->jsonResponse($resources, new CommercialTransformer);
+        return $this->jsonResponsePaginate($resources, new CommercialTransformer);
     }
 
 }

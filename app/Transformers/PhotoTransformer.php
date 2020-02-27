@@ -15,7 +15,6 @@ class PhotoTransformer extends TransformerAbstract
         return [
             'photo_id' => $photo->getKey(),
             'content' => $photo->getAttribute(Photo::CONTENT),
-
         ];
     }
 

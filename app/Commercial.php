@@ -36,7 +36,9 @@ class Commercial extends Model
         $photos = $this->photosRelation;
 
         /** @var Photo $mainPhoto */
-        $mainPhoto = $this->mainPhoto();
+        if(!$mainPhoto = $this->mainPhoto()) {
+            return $photos;
+        }
 
         //remove the main photo
         return $photos->whereNotIn(self::ID, $mainPhoto->getAttribute(self::ID));

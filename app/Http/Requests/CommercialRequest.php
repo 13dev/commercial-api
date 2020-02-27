@@ -6,10 +6,10 @@ namespace App\Http\Requests;
 use App\Commercial;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
+use Pearl\RequestValidate\RequestAbstract;
 
-class CommercialRequest extends Request
+class CommercialRequest extends RequestAbstract
 {
 
     /**
@@ -30,25 +30,20 @@ class CommercialRequest extends Request
     public function rules() : array
     {
         return [
-            Commercial::DESCRIPTION => ['required', 'max:1000', 'min:3',],
-            Commercial::TITLE => ['required', 'max:200', 'min:3',],
+            'order' => ['in:desc,asc'],
+            'sortBy' => ['in:created_at,price']
+//            Commercial::DESCRIPTION => ['required', 'max:1000', 'min:3',],
+//            Commercial::TITLE => ['required', 'max:200', 'min:3',],
         ];
     }
 
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
-    {
 
+    public function messages(): array
+    {
+        return [
+            'order.in' => trans('api.commercial.order_in'),
+            'sortBy.in' => trans('api.commercial.sortby_in'),
+        ];
     }
 
-    protected function failedValidation(Validator $validator): void
-    {
-        die("111");
-        //throw (new ValidationException(response()->json($validator->errors(), 422)));
-        throw new HttpResponseException(response()->json("ERROR!", 422));
-    }
 }
