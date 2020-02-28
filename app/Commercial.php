@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\FormatDateable;
 use App\Traits\ModelValidatable;
 use App\Traits\QueryFilterable;
 use Illuminate\Database\Eloquent\Collection;
@@ -9,14 +10,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Commercial extends Model
 {
-    use ModelValidatable, QueryFilterable;
+    use ModelValidatable, QueryFilterable, FormatDateable;
 
     public const TABLE = 'commercial';
     public const ID = 'id';
     public const TITLE = 'title';
     public const DESCRIPTION = 'description';
+    public const PRICE = 'price';
 
     protected $table = self::TABLE;
+    protected $fillable = [
+        self::PRICE,
+        self::DESCRIPTION,
+        self::TITLE
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

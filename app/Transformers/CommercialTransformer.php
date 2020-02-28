@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Commercial;
+use App\Photo;
 use League\Fractal\TransformerAbstract;
 
 class CommercialTransformer extends TransformerAbstract
@@ -13,7 +14,7 @@ class CommercialTransformer extends TransformerAbstract
      * @var array
      */
     protected $defaultIncludes = [
-        //
+        'main_photo'
     ];
 
     /**
@@ -23,7 +24,6 @@ class CommercialTransformer extends TransformerAbstract
      */
     protected $availableIncludes = [
         'photos',
-        'main_photo',
         'description',
     ];
 
@@ -37,7 +37,8 @@ class CommercialTransformer extends TransformerAbstract
         return [
             //'ads_id' => $commercial->getKey(),
             'title' => $commercial->getAttribute(Commercial::TITLE),
-            'createdAt' => $commercial->getAttribute(Commercial::CREATED_AT),
+            //'createdAt' => $commercial->getAttribute(Commercial::CREATED_AT),
+            'price' => $commercial->getAttribute(Commercial::PRICE),
         ];
     }
 
@@ -68,11 +69,12 @@ class CommercialTransformer extends TransformerAbstract
 
     public function includeMainPhoto(Commercial $commercial)
     {
-        if(!$mainPhoto = $commercial->mainPhoto()) {
-            return $this->null();
-        }
+        $mainPhoto = optional($commercial->mainPhoto());
 
-        return $this->item($mainPhoto, new PhotoTransformer);
+        return $this->primitive(
+            $commercial,
+            fn () => $mainPhoto->getAttribute(Photo::CONTENT)
+        );
     }
 
 }

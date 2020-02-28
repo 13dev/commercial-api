@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Commercial;
-use App\Http\Requests\CommercialRequest;
+use App\Helpers\Helpers;
+use App\Http\Requests\CommercialPostRequest;
+use App\Http\Requests\CommercialsRequest;
 use App\Models\User;
 use App\Repositories\CommercialRepository;
 use App\Transformers\CommercialTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class CommercialController extends Controller
 {
@@ -29,10 +32,10 @@ class CommercialController extends Controller
     /**
      * Get all the users.
      *
-     * @param CommercialRequest $request
+     * @param CommercialsRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(CommercialRequest $request): JsonResponse
+    public function index(CommercialsRequest $request): JsonResponse
     {
         $resources = $this->repository->getCommercials(
             $request->get('sortBy', 'created_at'),
@@ -40,10 +43,29 @@ class CommercialController extends Controller
             $request->get('limit', 10)
         );
 
-        //includes on response.
-        $this->setParseIncludes(['main_photo', 'photos']);
-
         return $this->jsonResponsePaginate($resources, new CommercialTransformer);
+    }
+
+
+    public function show(int $id, Request $request): JsonResponse
+    {
+        $includes = Helpers::parseIncludes(
+            $request->get('includes', ''),
+            ['photos', 'description']
+        );
+
+        $this->setParseIncludes($includes);
+
+        $resource = $this->repository->getCommercial($id);
+
+        return $this->jsonResponse($resource, new CommercialTransformer);
+    }
+
+    public function create(CommercialPostRequest $request): JsonResponse
+    {
+        $resource = $this->repository->createCommercial($request->all());
+
+        return $this->jsonResponse($resource, new CommercialTransformer);
     }
 
 }

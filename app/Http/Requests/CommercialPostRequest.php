@@ -9,7 +9,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
 use Pearl\RequestValidate\RequestAbstract;
 
-class CommercialRequest extends RequestAbstract
+class CommercialPostRequest extends RequestAbstract
 {
 
     /**
@@ -30,10 +30,10 @@ class CommercialRequest extends RequestAbstract
     public function rules() : array
     {
         return [
-            'order' => ['in:desc,asc'],
-            'sortBy' => ['in:created_at,price']
-//            Commercial::DESCRIPTION => ['required', 'max:1000', 'min:3',],
-//            Commercial::TITLE => ['required', 'max:200', 'min:3',],
+            Commercial::DESCRIPTION => ['required', 'max:1000', 'min:3',],
+            Commercial::TITLE       => ['required', 'max:200', 'min:3',],
+            'photos.*'              => ['required', 'max:1000'],
+            Commercial::PRICE       => ['required', 'regex:/^\d+(\.\d{1,2})?$/']
         ];
     }
 
@@ -41,8 +41,7 @@ class CommercialRequest extends RequestAbstract
     public function messages(): array
     {
         return [
-            'order.in' => trans('api.commercial.order_in'),
-            'sortBy.in' => trans('api.commercial.sortby_in'),
+            'price.regex' => trans('api.commercial.price_regex'),
         ];
     }
 

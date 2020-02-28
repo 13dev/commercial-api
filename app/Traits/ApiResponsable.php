@@ -26,7 +26,6 @@ trait ApiResponsable
     {
         $data = fractal($data, $transformer)
             ->parseIncludes($this->parseIncludes)
-            ->paginateWith(new IlluminatePaginatorAdapter($data))
             ->toArray();
 
         return new JsonResponse($data, $status, $headers, $options);
