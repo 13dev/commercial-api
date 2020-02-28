@@ -28,7 +28,14 @@
 - `/commercials?sortBy=created_at&order=desc`
 - `/commercials/3?include=photos`
 - `/commercials/3?include=description,photos`
-
+- `POST /commercials`
+    - BODY params:
+        - `title: New Ad`
+        - `description:A Nice Description of ad`
+        - `photos[0]:http://url-of-first-image.com/image.png`
+        - `photos[1]:http://url-of-second-image.com/image.png`
+        - `price:12.99`
+    - `Note: can have unlimited photos[0...INFINITY]`
 ### Docker Instalation (Optional)
 - Run `docker-compose up -d`
 - Don't forget to configure `.env` file with ip of lumen-mysql container.
