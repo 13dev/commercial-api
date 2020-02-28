@@ -16,11 +16,11 @@
 
 ### API endpoints
 
-|METHOD|ENDPOINT| PARAMS  | BODYPARAMS | 
-|:-:|:-|:-|:--|
-|GET|`/commercials`| `sortBy=(created_at|price)`, `order=(asc|desc)`  |
-|GET| `/commercials/{id}`  | `include=description,photos` (the include param recive fields to include separated by `,`) | | 
-|POST| `/commercials/`  | No GET params  | `title`, `description`, `price`, `photos` (array) |
+|METHOD|ENDPOINT|PARAMS|BODYPARAMS| 
+|:-----:|:------|:-----|:---------|
+|GET    |`/commercials`			| `sortBy=(created_at or price)`,<br>`order=(asc or desc)` 												||
+|GET  	| `/commercials/{id}`  	| `include=description,photos` (the include param recive fields to include separated by `,`) 		||
+|POST	| `/commercials/`  		| No GET params  																					| `title`, `description`, `price`, `photos` (array) |
 
 ### Docker Instalation (Optional)
 - Run `docker-compose up -d`
