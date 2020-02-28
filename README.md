@@ -12,7 +12,7 @@
 -   `php artisan key:generate`
 -   Configure database host, user, password in `.env` file;
 -   `php artisan migrate`
--   `php artisan db:seed`
+-   `php artisan db:seed` (to create dummy data)
 
 ### API endpoints
 
