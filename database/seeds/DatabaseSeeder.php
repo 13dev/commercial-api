@@ -12,5 +12,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call('UsersTableSeeder');
+        factory(\App\Commercial::class, 20)->create()->each(function (\App\Commercial $c) {
+            $c->photosRelation()->saveMany(factory(\App\Photo::class, 4)->make());
+        });
     }
 }
